@@ -24,7 +24,7 @@ public class MessageService {
     private final MessageRepository messageRepository;
 
     public Mono<MessageDTO> getMessageByName(String name) {
-            Mono<MessageDTO> messageDTOMono = messageRepository.messageByName("name")
+            Mono<MessageDTO> messageDTOMono = messageRepository.messageByName(name)
                     .flatMap(message -> Mono.just(new MessageDTO(message.getText(), message.getSubject())))
                     .switchIfEmpty(Mono.defer(() ->Mono.error(() -> {
                         log.error("Отсутствует сообщение с именем %s".formatted(name));

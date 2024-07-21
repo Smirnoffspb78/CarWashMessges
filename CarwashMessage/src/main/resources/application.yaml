@@ -1,0 +1,30 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: CarwashMessage
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: carwash
+  main:
+    banner-mode: off
+  mail:
+    username: ${LOGIN_MAIL}
+    password: ${PASSWORD_MAIL}
+    port: 587
+    host: smtp.yandex.ru
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+logging:
+  level:
+    root: INFO
+  file:
+    name: LogCarWash
+#yajmlakruwrcsnhj

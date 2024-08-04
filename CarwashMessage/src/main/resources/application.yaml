@@ -28,3 +28,13 @@ logging:
   file:
     name: LogCarWash
 
+
+#Свойства класса RabbitConf
+rabbitconfigure:
+  username: user
+  password: password
+  virtualhost: cpp
+  queue: queue1
+  exchange: testExchange
+  routingKey: testRoutingKey
+  host: localhost

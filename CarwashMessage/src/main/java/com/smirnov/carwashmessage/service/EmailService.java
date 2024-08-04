@@ -2,7 +2,6 @@ package com.smirnov.carwashmessage.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailParseException;
 import org.springframework.mail.MailSendException;
@@ -29,36 +28,32 @@ public class EmailService {
      */
     private final MessageService messageService;
 
-    public void sendMessageApprove(String email, Integer id) {
-        messageService.getMessageByName("approve_record").flatMap(messageDTO -> {
-                    Mono.fromCallable(() -> {
-                                        try {
-                                            SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-                                            String mail = "admcarwash@yandex.ru";
-                                            simpleMailMessage.setFrom(mail);
-                                            simpleMailMessage.setTo(email);
-                                            simpleMailMessage.setSubject(messageDTO.subject());
-                                            simpleMailMessage.setText(messageDTO.text().formatted(id));
-                                            mailSender.send(simpleMailMessage);
-                                        } catch (MailParseException e){
-                                            log.error("Неверный формат сообщения");
-                                            return false;
-                                        }
-                                        catch (MailAuthenticationException e){
-                                            log.error("Неверная комбинация email И пароля отправителя");
-                                            return false;
-                                        }
-                                        catch (MailSendException e) {
-                                            log.error("Не удалось отправить сообщение. Проверьте правильность email получателя");
-                                            return false;
-                                        }
-                                        log.info("Сообщение отправлено на email {}", email);
-                                        return true;
-                                    }
-                            )
-                            .subscribe();
+    private static final String ID = "approve-record";
+    private static final String EMAIL_SENDER = "admcarwash@yandex.ru";
+
+    public Mono<Void> sendMessageApprove(String email, Integer id) {
+        messageService.getById(ID).map(messageDTO -> {
+                    Mono.fromRunnable(() -> {
+                                try {
+                                    SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+                                    simpleMailMessage.setFrom(EMAIL_SENDER);
+                                    simpleMailMessage.setTo(email);
+                                    simpleMailMessage.setSubject(messageDTO.subject());
+                                    simpleMailMessage.setText(messageDTO.text().formatted(id));
+                                    mailSender.send(simpleMailMessage);
+                                } catch (MailParseException e) {
+                                    log.error("Неверный формат сообщения");
+                                } catch (MailAuthenticationException e) {
+                                    log.error("Неверная комбинация email И пароля отправителя");
+                                } catch (MailSendException e) {
+                                    log.error("Не удалось отправить сообщение. Проверьте правильность email получателя");
+                                }
+                        log.info("Сообщение отправлено на email {}", email);
+                            }
+                    ).subscribe();
                     return Mono.empty();
                 }
         ).subscribe();
+        return Mono.empty();
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 /**
  * Контроллер для отправки сообщений на email.
@@ -28,9 +29,9 @@ public class EmailController {
      * @param userEmail email пользователя
      * @param id Идентификатор пользователя
      */
-    @GetMapping("/{user-email}/{id}")
-    public void sendApproveRecording(@PathVariable("user-email")String userEmail, @PathVariable("id") Integer id) {
+    @GetMapping("/{email}/{id}")
+    public Mono<Void> sendApproveRecording(@PathVariable("email")String userEmail, @PathVariable("id") int id) {
         log.info("GET: /email/{}/{}", userEmail, id);
-        emailService.sendMessageApprove(userEmail, id);
+        return emailService.sendMessageApprove(userEmail, id);
     }
 }

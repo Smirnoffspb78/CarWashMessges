@@ -1,0 +1,40 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: CarwashMessage
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: carwash
+  main:
+    banner-mode: off
+  mail:
+    username: ${LOGIN_MAIL}
+    password: ${PASSWORD_MAIL}
+    port: 587
+    host: smtp.yandex.ru
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+logging:
+  level:
+    root: ${LOGGING_LEVEL}
+  file:
+    name: LogCarWash
+
+
+#Свойства класса RabbitConf
+rabbitconfigure:
+  username: admin
+  password: admin
+  virtualhost: cpp
+  queue: carWashQueue
+  exchange: carWashExchange
+  routingKey: carWashRoutingKey
+  host: localhost

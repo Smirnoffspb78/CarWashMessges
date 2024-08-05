@@ -1,5 +1,6 @@
 package com.smirnov.carwashmessage.service;
 
+import com.smirnov.carwashmessage.dto.request.MessageDTO;
 import com.smirnov.carwashmessage.exception.MessageNotFoundException;
 import com.smirnov.carwashmessage.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;

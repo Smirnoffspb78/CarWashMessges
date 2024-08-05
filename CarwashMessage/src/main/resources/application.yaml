@@ -31,10 +31,10 @@ logging:
 
 #Свойства класса RabbitConf
 rabbitconfigure:
-  username: user
-  password: password
+  username: admin
+  password: admin
   virtualhost: cpp
-  queue: queue1
-  exchange: testExchange
-  routingKey: testRoutingKey
+  queue: carWashQueue
+  exchange: carWashExchange
+  routingKey: carWashRoutingKey
   host: localhost
